@@ -1,4 +1,4 @@
-// Converts a utdallas.edu URL to sites.utdallas.edu for editing
+// Converts a <department>.utdallas.edu URL to sites.utdallas.edu for web editing
 javascript: (function () {
     // Check if the current website is utdallas.edu
     if (!window.location.hostname.endsWith('utdallas.edu')) {
