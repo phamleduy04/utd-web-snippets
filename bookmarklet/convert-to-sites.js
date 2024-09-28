@@ -32,7 +32,7 @@ javascript: (function () {
         url.pathname = '/' + subdomain + url.pathname;
 
         // Update the browser's address bar and navigate to the new URL
-        window.location.href = url.toString();
+        window.location.href = `https://sites.utdallas.edu/wp-login.php?privacy=1&redirect_to=${encodeURIComponent(url.toString())}`;
     } else {
         alert('This URL does not have a department subdomain and cannot be converted.');
     }
