@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const followRedirect = require('follow-redirect-url');
 
 const csvWriter = createCsvWriter({
     path: 'output.csv',
@@ -74,11 +75,19 @@ const url = 'https://cs.utdallas.edu/people/faculty/';
             email,
             phone,
             website,
-            optional_website
+            optional_website,
         });
     });
 
-    await csvWriter.writeRecords(records);
+    const recordsWithRedirect = await Promise.all(records.map(async (record) => {
+        const optional_website_redirect = await followRedirect.startFollowing(record.optional_website);
+        return {
+            ...record,
+            optional_website: optional_website_redirect[optional_website_redirect.length - 1].url
+        };
+    }));
+
+    await csvWriter.writeRecords(recordsWithRedirect);
 })();
 
 
